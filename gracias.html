@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gracias por tu compra - ElottoIA</title>
+  <style>
+    body {
+      background-color: #06192f;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      text-align: center;
+    }
+    h1 {
+      color: #ffd500;
+    }
+    p {
+      max-width: 500px;
+      margin-bottom: 30px;
+      color: #ccc;
+    }
+    input[type="email"] {
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: none;
+      margin-bottom: 20px;
+      width: 300px;
+    }
+    button {
+      background-color: #00c851;
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .note {
+      font-size: 0.9rem;
+      color: #aaa;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 ¡Gracias por tu compra!</h1>
+  <p>Para darte acceso a la versión completa de ElottoIA, por favor introduce el correo con el que te registraste o planeas registrarte.</p>
+  <form id="email-form">
+    <input type="email" name="email" id="email" placeholder="Tu correo electrónico" required>
+    <br>
+    <button type="submit">Enviar</button>
+  </form>
+  <p id="response-msg" class="note"></p>
+  <script>
+    const form = document.getElementById("email-form");
+    const responseMsg = document.getElementById("response-msg");
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+      const email = document.getElementById("email").value.trim();
+
+      const res = await fetch("https://elottoia-backend.onrender.com/email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      });
+
+      if (res.ok) {
+        responseMsg.textContent = "✅ ¡Correo recibido! Activaremos tu cuenta pronto.";
+        form.reset();
+      } else {
+        responseMsg.textContent = "❌ Hubo un error. Intenta de nuevo.";
+      }
+    });
+  </script>
+</body>
+</html>
